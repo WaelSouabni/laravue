@@ -130,10 +130,16 @@ export const constantRoutes = [
     redirect: '/accompgnateurs/index',
     children: [
       {
-        path: 'users',
+        path: 'accompgnateur',
         component: () => import('@/views/accompgnateur/List'),
         name: 'قائمة المرافقين',
         meta: { title: 'قائمة المرافقين', icon: 'user', permissions: ['manage'] },
+      },
+      {
+        path: 'accompagnateurPackages',
+        component: () => import('@/views/accompgnateurPackage/List'),
+        name: ' قائمة علاقة المرافقين بالرحلات',
+        meta: { title: ' قائمة علاقة المرافقين بالرحلات', icon: 'user', permissions: ['manage'] },
       },
     ],
   },

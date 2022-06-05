@@ -14,6 +14,13 @@ class AccompagnateurPackageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+       // return parent::toArray($request);
+       return [
+        'id' => $this->id,
+        'etat' => $this->etat,
+        'user_id' =>$this->user_id,
+        'package_id' =>$this->package_id,
+        'package' =>$this->package->labelle,
+        'user' =>$this->user->name    ];
     }
 }

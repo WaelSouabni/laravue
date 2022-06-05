@@ -24,4 +24,11 @@ class Package extends Model
         
         return $this->hasMany('Paiement');
     }
+      /**
+     * obtenir les accompagnateur d'un packages.
+     */
+    public function accompagnateurPackage()
+    { 
+        return $this->belongsTo('App\Laravue\Models\Accompagnateur'); 
+    }
 }

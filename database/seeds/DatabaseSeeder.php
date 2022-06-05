@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $adminRole = Role::findByName(\App\Laravue\Acl::ROLE_ADMIN);
-      /*  $managerRole = Role::findByName(\App\Laravue\Acl::ROLE_MANAGER);
+        $managerRole = Role::findByName(\App\Laravue\Acl::ROLE_MANAGER);
         $editorRole = Role::findByName(\App\Laravue\Acl::ROLE_EDITOR);
         $userRole = Role::findByName(\App\Laravue\Acl::ROLE_USER);
         $visitorRole = Role::findByName(\App\Laravue\Acl::ROLE_VISITOR);
@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         $manager->syncRoles($managerRole);
         $editor->syncRoles($editorRole);
         $user->syncRoles($userRole);
-        $visitor->syncRoles($visitorRole);*/
+        $visitor->syncRoles($visitorRole);
         $this->call(UsersTableSeeder::class);
       
         $this->call( PackageTableSeeder::class);

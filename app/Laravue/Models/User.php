@@ -116,4 +116,9 @@ class User extends Authenticatable
     { 
       return $this->hasMany('Message'); 
     }
+    //
+    public function accompagnateurPackages() 
+    { 
+        return $this->hasMany('App\Laravue\Models\AccompagnateurPackage'); 
+    }
 }

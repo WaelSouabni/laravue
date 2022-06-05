@@ -13,4 +13,5 @@ class Accompagnateur extends Model
     {
     	return $this->belongsTo('App\Laravue\Models\Package');
     }
+
 }

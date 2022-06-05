@@ -7,17 +7,39 @@ use Illuminate\Http\Request;
 use App\Laravue\Models\AccompagnateurPackage;
 use App\Http\Resources\AccompagnateurPackageResource;
 use App\Laravue\Models\Package;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use Validator;
+use DateTime;
 
 class AccompagnateurPackageController extends Controller
 {
+    const ITEM_PER_PAGE = 15;
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the user resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response|ResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $searchParams = $request->all();
+        $AccompagnateurPackageQuery = AccompagnateurPackage::query()->orderBy('id', 'DESC');
+        $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
+        $keyword = Arr::get($searchParams, 'user_id', '');    
+        $keyword2 = Arr::get($searchParams, 'package_id', '');   
+       // dd($keyword);
+       if (!empty($keyword)) {
+            $AccompagnateurPackageQuery->where('user_id', '=',$keyword);
+        }
+        if (!empty($keyword2)) {
+            $AccompagnateurPackageQuery->where('package_id', '=',$keyword2);
+        }
+
+        return AccompagnateurPackageResource::collection($AccompagnateurPackageQuery->paginate($limit));
     }
 
     /**
@@ -107,10 +129,10 @@ class AccompagnateurPackageController extends Controller
         //
         $AccompagnateurPackage = AccompagnateurPackage::findOrFail($id);
         $package = Package::findOrFail($AccompagnateurPackage['package_id']);
-        if($params['role']== 0){
+        if($package['role']== 0){
             $package['NombreAccRestant']=$package['NombreAccRestant']+1;
             $package->save();
-              return($package); 
+             // return($package); 
            }
         else{
             $package->update([

@@ -25,7 +25,7 @@ class AccompgnateurResource extends JsonResource
             'image' => $this->image,
             'etat' => $this->etat,
             'user_id' => $this->user_id,
-            'package_id' =>$this->package_id,
+            
         ];
     }
 }

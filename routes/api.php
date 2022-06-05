@@ -94,7 +94,10 @@ Route::get('usersList', [
 
 //relation Accompgnateur Package
 Route::apiResource('accompgnateursPackages', 'Api\AccompagnateurPackageController', ['except' => ['index']]);
-   
+Route::get('accompgnateursPackages/{request?}', [
+    'uses' => 'Api\AccompagnateurPackageController@index'
+   ])->name('accompgnateursPackages.index');
+
 
      //Paiement
  Route::apiResource('paiements', 'Api\PaiementController', ['except' => ['index']]);
