@@ -20,6 +20,7 @@ class PackageTableSeeder extends Seeder
             'NombrePlace'=>'50',
             'NombreAcc'=>'2',
             'NombrePlaceRestant'=>'50',
+            'NombreAccRestant'=>'2',
             'prix'=>3850,
             'dateDepart'=>'2022-02-01',
         ]);
@@ -30,6 +31,7 @@ class PackageTableSeeder extends Seeder
             'NombrePlace'=>'30',
             'NombrePlaceRestant'=>'30',
             'NombreAcc'=>'2',
+            'NombreAccRestant'=>'2',
             'prix'=>3850,
             'dateDepart'=>'2022-02-16',
         ]);
@@ -38,6 +40,7 @@ class PackageTableSeeder extends Seeder
             'description'=>'test vol 3',
             'NombrePlace'=>'40',
             'NombreAcc'=>'1',
+            'NombreAccRestant'=>'1',
             'NombrePlaceRestant'=>'40',
             'prix'=>4000,
             'dateDepart'=>'2022-03-01',

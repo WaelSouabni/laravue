@@ -191,4 +191,31 @@ class AccompagnateurController extends Controller
             'telephoneEtranger' => 'required|numeric|min:8',
         ];
     }
+
+        //
+     /**
+     * Register api.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function registerAccompgnateur(Request $request)
+    {
+        $params = $request->all();
+  
+        //
+        $Accompagnateur = Accompagnateur::create([
+            'nomArabe' => $params['nomArabe'],
+            'prenomArabe' => $params['prenomArabe'],
+            'sexe' => $params['sexe'],
+            'telephoneTunisien' => $params['telephoneTunisien'],
+            'telephoneEtranger' => $params['telephoneEtranger'],
+            'user_id' => $params['user_id'],
+                  
+        ]);
+       
+        return response()->json([
+          'success' => true,
+          'user' => $Accompagnateur
+      ]);
+    }
 }

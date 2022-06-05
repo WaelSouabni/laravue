@@ -134,10 +134,7 @@ class MobileUserController extends Controller
  
          
     }
-    ///
-    /*public function test(){
-        return "tesst";
-    }*/
+  
     //
      /**
      * Register api.
@@ -147,14 +144,6 @@ class MobileUserController extends Controller
     public function register(Request $request)
     {
       
-      //return ($request->all());
-        /*$user = DB::table('users')->insert([
-          "name" => $request->input('name'),
-          "email" => $request->input('email'),
-          "password" => bcrypt($request->input('password')),
-          "type" => $request->input('type')
-        ]);*/
-       
         $data = new User;
         $data->name = $request->input('name');
         $data->email = $request->input('email');

@@ -99,6 +99,7 @@ class PackageController extends Controller
                 'prix' => $params['prix'],
                 'image'=>'http://localhost:8000/storage/'.$imageName,
                 'NombreAcc'=>$params['NombreAcc'],
+                'NombreAccRestant'=>$params['NombreAcc'],
                 'dateDepart' => new DateTime($params['dateDepart']),
                
             ]);

@@ -20,14 +20,14 @@ class CreatePelerinsTable extends Migration
             $table->string('prenomArabe');
             $table->date('dateNaissance');
             $table->enum('sexe', array('0', '1'))->default('0');
-            $table->string('telephoneTunisien');
-            $table->string('numeroDePassport')->nullable();
-            $table->date('dateExpiration');
-            $table->date('dateEmission'); 
+            $table->string('telephoneTunisien') ->nullable();
+            $table->string('numeroDePassport') ->nullable();
+            $table->date('dateExpiration') ->nullable();
+            $table->date('dateEmission') ->nullable(); 
             $table->string('image') ->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('createur_id');
-            $table->unsignedBigInteger('package_id');
+            $table->unsignedBigInteger('package_id') ->nullable();
             $table->enum('etat', ['1','0','2'])->default('1');
 
             $table->foreign('user_id')

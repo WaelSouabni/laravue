@@ -86,8 +86,8 @@ class UserController extends BaseController
                 'email' => $params['email'],
                 'password' => Hash::make($params['password']),
             ]);
-            $role = Role::findByName($params['role']);
-            $user->syncRoles($role);
+            //$role = Role::findByName($params['role']);
+            //$user->syncRoles($role);
 
             return new UserResource($user);
         }

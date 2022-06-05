@@ -20,6 +20,7 @@ class CreatePackagesTable extends Migration
             $table->integer('NombrePlace');
             $table->integer('NombrePlaceRestant');
             $table->integer('NombreAcc'); 
+            $table->integer('NombreAccRestant');
             $table->float('prix',8,2);
             $table->date('dateDepart');
             $table->string('image')->nullable();

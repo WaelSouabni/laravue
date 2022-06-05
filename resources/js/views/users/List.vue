@@ -157,7 +157,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog :title="'Create new user'" :visible.sync="dialogFormVisible">
+    <el-dialog :title="'زيادة مستعمل جديد'" :visible.sync="dialogFormVisible">
       <div v-loading="userCreating" class="form-container">
         <el-form
           ref="userForm"
@@ -261,7 +261,7 @@ export default {
         role: '',
       },
       roles: ['أدمين', 'مستخدم عادي'],
-      nonAdminRoles: ['editor', 'user', 'visitor'],
+      nonAdminRoles: ['أدمين', 'مستخدم عادي'],
       newUser: {},
       dialogFormVisible: false,
       dialogPermissionVisible: false,

@@ -8,7 +8,6 @@ use App\Http\Resources\UserListResource;
 use App\Http\Controllers\Controller;
 use App\Laravue\Models\Pelerin;
 use App\Laravue\Models\Package;
-use App\Laravue\Models\package_id;
 use App\Laravue\Models\User;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Request;
@@ -247,4 +246,81 @@ class PelerinController extends Controller
             return $package;
             
         }
+
+            /**
+     * Register api.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function registerPelerin(Request $request)
+    {
+        $params = $request->all();
+  
+        //
+        $Pelerin = Pelerin::create([
+            'nomArabe' => $params['nomArabe'],
+            'prenomArabe' => $params['prenomArabe'],
+            'dateNaissance' => new DateTime($params['dateNaissance']),
+            'sexe' => $params['sexe'],  
+            'user_id' => $params['user_id'], 
+            'createur_id' => $params['user_id'], 
+        ]);
+       
+        return response()->json([
+          'success' => true,
+          'Pelerin' => $Pelerin
+      ]);
+    }
+    
+    /**
+     * Register api.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function modfierPelerin(Request $request)
+    {
+        $params = $request->all();
+        //$Pelerin = Pelerin::findOrFail($params['user_id'],);
+       // return($params['user_id']);
+        $query = Pelerin::where('user_id','=',$params['user_id']);
+        $Pelerin = $query->latest()->firstOrFail();
+        if( $Pelerin['package_id']== null){
+            $Pelerin->package_id=$params['package_id'];
+            $Pelerin->numeroDePassport=$params['numeroDePassport'];
+            $Pelerin->dateExpiration=$params['dateExpiration'];
+            $Pelerin->dateEmission=$params['dateEmission'];
+            $Pelerin->telephoneTunisien=$params['telephoneTunisien'];
+            $Pelerin->save();
+            $package = Package::findOrFail($params['package_id']);
+            $package->update([
+                "NombrePlaceRestant" => $package['NombrePlaceRestant']-1,
+            ]);
+            return response()->json([
+                'success' => true,
+                'Pelerin' => $Pelerin
+            ]);
+        }else{
+             $pelerin = Pelerin::create([
+            'nomArabe' => $Pelerin['nomArabe'],
+            'prenomArabe' => $Pelerin['prenomArabe'],
+            'dateNaissance' => new DateTime($Pelerin['dateNaissance']),
+            'sexe' => $Pelerin['sexe'],  
+            'user_id' => $Pelerin['user_id'], 
+            'createur_id' => $Pelerin['user_id'], 
+            'package_id' => $params['package_id'],
+            'numeroDePassport' => $params['numeroDePassport'],
+            'dateExpiration' => new DateTime($params['dateExpiration']),
+            'dateEmission' => new DateTime($params['dateEmission']),
+            'telephoneTunisien' => $params['telephoneTunisien'], 
+        ]);
+        $package = Package::findOrFail($params['package_id']);
+        $package->update([
+            "NombrePlaceRestant" => $package['NombrePlaceRestant']-1,
+        ]);
+        return response()->json([
+            'success' => true,
+            'Pelerin' => $pelerin
+        ]);
+        }
+    }
 }

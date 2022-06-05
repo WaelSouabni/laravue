@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccompagnateursTable extends Migration
+class CreateAccompagnateurPackagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,22 @@ class CreateAccompagnateursTable extends Migration
      */
     public function up()
     {
-        Schema::create('accompagnateurs', function (Blueprint $table) {
+        Schema::create('accompagnateur_packages', function (Blueprint $table) {
             $table->id();
-            $table->string('nomArabe');
-            $table->string('prenomArabe');
-            $table->enum('sexe', array('0', '1'))->default('0');
-            $table->string('telephoneTunisien');
-            $table->string('telephoneEtranger') ->nullable();
-            $table->string('image') ->nullable();
-            $table->enum('etat', ['0','1'])->default('0');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
+            $table->unsignedBigInteger('package_id');
+            $table->foreign('package_id')
+                ->references('id')
+                ->on('packages')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->enum('etat', ['1','0','2'])->default('1');
+            $table->enum('role', ['1','0'])->default('1');
             $table->timestamps();
         });
     }
@@ -40,6 +40,6 @@ class CreateAccompagnateursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accompagnateurs');
+        Schema::dropIfExists('accompagnateur_packages');
     }
 }

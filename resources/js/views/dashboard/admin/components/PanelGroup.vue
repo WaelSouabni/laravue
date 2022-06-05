@@ -65,6 +65,14 @@
         </div>
       </div>
     </el-col>
+    <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
+      <div class="bg-white">
+        <div class="chart-wrapper">
+          <pie-chart />
+        </div>
+      </div>
+    </el-col>
+
   </el-row>
 
 </template>
@@ -72,10 +80,11 @@
 <script>
 import CountTo from 'vue-count-to';
 import axios from 'axios';
+import PieChart from './PieChart';
 
 export default {
   components: {
-    CountTo,
+    CountTo, PieChart,
   },
   data() {
     return {

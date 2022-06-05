@@ -39,12 +39,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Name">
+      <el-table-column align="center" label="المرسل">
         <template slot-scope="scope">
           <span>{{ scope.row.user }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="etat">
+      <el-table-column align="center" label="الحالة">
         <template slot-scope="scope">
           <span v-show="scope.row.etat == '1'"> مقروء </span>
           <span v-show="scope.row.etat == '0'"> غير مقروء </span>
@@ -55,7 +55,7 @@
           <span>{{ scope.row.user_id }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Email">
+      <el-table-column align="center" label="نص الرسالة">
         <template slot-scope="scope">
           <span>{{ scope.row.description }}</span>
         </template>

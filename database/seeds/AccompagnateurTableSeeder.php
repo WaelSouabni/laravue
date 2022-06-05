@@ -21,7 +21,6 @@ class AccompagnateurTableSeeder extends Seeder
             'prenomArabe'=>'اكرم',
             'telephoneTunisien'=>'50252121',
             'user_id'=>4,
-            'package_id'=>1,
             'image'=>'images/accompagnateurs/accompgnateur1.jpg',
           
         ]);
@@ -31,7 +30,6 @@ class AccompagnateurTableSeeder extends Seeder
             'prenomArabe'=>'سالم',
             'telephoneTunisien'=>'94250241',
             'user_id'=>5,
-            'package_id'=>1,
             'image'=>'images/accompagnateurs/accompgnateur2.jpg',
             
         ]);

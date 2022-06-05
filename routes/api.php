@@ -78,7 +78,7 @@ Route::get('usersList', [
    Route::get('pelerins/valider/{id}', 'Api\PelerinController@valider')->name('pelerins.valider');
    Route::get('pelerins/invalider/{id}', 'Api\PelerinController@invalider')->name('pelerins.invalider');
 
-   //Packages liste dèun pelerins
+   //Packages liste d'un pelerins
    Route::get('listePackagesPelerins/{id}', [
     'uses' => 'Api\PelerinController@PackagesUser'
    ])->name('listePackagesPelerins.list');
@@ -92,6 +92,8 @@ Route::get('usersList', [
     'uses' => 'Api\AccompagnateurController@index'
    ])->name('accompgnateurs.index');
 
+//relation Accompgnateur Package
+Route::apiResource('accompgnateursPackages', 'Api\AccompagnateurPackageController', ['except' => ['index']]);
    
 
      //Paiement
@@ -119,6 +121,9 @@ Route::group(['prefix' => 'Mobile'], function () {
     Route::get('/logout', 'Api\MobileUserController@logout')->middleware('auth:api');
     Route::get('/accompg', 'Api\MobileUserController@accompagnateur');
     Route::get('/vol', 'Api\MobileUserController@vol');
+    Route::post('/AccompagnateurStore', 'Api\AccompagnateurController@registerAccompgnateur');
+    Route::post('/PelerinStore', 'Api\PelerinController@registerPelerin');
+    Route::post('/PelerinUpdat', 'Api\PelerinController@modfierPelerin');
 });
   
 

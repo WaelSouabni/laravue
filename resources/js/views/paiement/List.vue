@@ -76,19 +76,19 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('package')" width="'20%'" align="center">
+      <el-table-column :label="$t('رحلة ')" width="'20%'" align="center">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(row)">{{
             scope.row.package
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('montant')" width="110px" align="center">
+      <el-table-column :label="$t('مبلغ')" width="110px" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.montant.toString() }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Actions" width="350">
+      <el-table-column align="center" label="أجراءات" width="350">
         <template slot-scope="scope">
           <el-button
             type="primary"
