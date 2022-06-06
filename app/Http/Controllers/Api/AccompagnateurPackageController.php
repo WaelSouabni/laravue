@@ -65,12 +65,11 @@ class AccompagnateurPackageController extends Controller
         $AccompagnateurPackage = AccompagnateurPackage::create([
             'user_id' => $params['user_id'],
             'package_id' => $params['package_id'],
-            'role'=>$params['role'],
         ]);
         
-        $package = Package::findOrFail($params['package_id']);
+       /* $package = Package::findOrFail($params['package_id']);
         //return($params['role']);
-        if($params['role']== 0){
+        if($package['role']== 0){
          $package['NombreAccRestant']=$package['NombreAccRestant']-1;
          $package->save();
            return($package); 
@@ -79,7 +78,7 @@ class AccompagnateurPackageController extends Controller
             $package->update([
                 "NombrePlaceRestant" => $package['NombrePlaceRestant']-1,
             ]);
-        }
+        }*/
     
         return new AccompagnateurPackageResource($AccompagnateurPackage);
     }
@@ -116,6 +115,14 @@ class AccompagnateurPackageController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $params = $request->all();
+        $AccompagnateurPackage = AccompagnateurPackage::findOrFail($id);
+         $AccompagnateurPackage->update([
+            'user_id' => $params['user_id'],
+            'package_id' => $params['package_id'],
+    ]);
+
+    return new AccompagnateurPackageResource($AccompagnateurPackage);
     }
 
     /**
@@ -147,4 +154,42 @@ class AccompagnateurPackageController extends Controller
 
         return response()->json(null, 204);
     }
+     
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function valider($id)
+    {
+        //return ($id);
+         $AccompagnateurPackage = AccompagnateurPackage::findOrFail($id);
+        $AccompagnateurPackage->etat = '2';
+        $AccompagnateurPackage->save();
+
+        $package = Package::findOrFail($AccompagnateurPackage['package_id']);
+        $package['NombreAccRestant']=$package['NombreAccRestant']-1;
+        $package->save();
+        
+
+        return response()->json($AccompagnateurPackage, 204); 
+    }
+
+      /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function invalider($id)
+    {
+        $AccompagnateurPackage = AccompagnateurPackage::findOrFail($id);
+        $AccompagnateurPackage->etat = '0';
+        $AccompagnateurPackage->save();
+
+        return response()->json($AccompagnateurPackage, 204); 
+     
+    }
+
 }

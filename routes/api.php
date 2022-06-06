@@ -92,11 +92,21 @@ Route::get('usersList', [
     'uses' => 'Api\AccompagnateurController@index'
    ])->name('accompgnateurs.index');
 
+   
+Route::get('accompgnateurList', [
+    'uses' => 'Api\AccompagnateurController@accompgnateurs'
+   ])->name('accompgnateur.list');
+   Route::get('accompagnateurs/publier/{id}', 'Api\AccompagnateurController@publier')->name('accomp.publier');
+   Route::get('accompagnateurs/masquer/{id}', 'Api\AccompagnateurController@masquer')->name('accomp.masquer');
+
+
 //relation Accompgnateur Package
 Route::apiResource('accompgnateursPackages', 'Api\AccompagnateurPackageController', ['except' => ['index']]);
 Route::get('accompgnateursPackages/{request?}', [
     'uses' => 'Api\AccompagnateurPackageController@index'
    ])->name('accompgnateursPackages.index');
+   Route::get('accompagnateurs/valider/{id}', 'Api\AccompagnateurPackageController@valider')->name('accomp.valider');
+   Route::get('accompagnateurs/invalider/{id}', 'Api\AccompagnateurPackageController@invalider')->name('accomp.invalider');
 
 
      //Paiement

@@ -11,7 +11,7 @@
       >
         <el-option
           v-for="user in listuser"
-          :key="user"
+          :key="'i'+user.id"
           :label="user.name | uppercaseFirst"
           :value="user.id"
         />
@@ -26,8 +26,8 @@
       >
         <el-option
           v-for="vol in listpackage"
-          :key="vol"
-          :label="vol.labele | uppercaseFirst"
+          :key="'r'+vol.id"
+          :label="vol.labelle | uppercaseFirst"
           :value="vol.id"
         />
       </el-select>
@@ -69,7 +69,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('اللقب & الاسم')" width="'20%'">
+      <el-table-column :label="$t('اللقب & الاسم')" width="'20%'" align="center">
         <template slot-scope="{ row }">
           <span class="link-type" @click="handleUpdate(row)">{{
             row.user
@@ -83,13 +83,31 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('مبلغ')" width="110px" align="center">
+      <el-table-column :label="$t('الحالة')" width="110px" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.etat }}</span>
+          <span v-show="scope.row.etat == '0'"> مرفوض </span>
+          <span v-show="scope.row.etat == '1'"> غير مؤكد </span>
+          <span v-show="scope.row.etat == '2'"> مؤكد </span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="أجراءات" width="350">
         <template slot-scope="scope">
+          <el-button
+            v-show="scope.row.etat == '1'"
+            class="filter-item"
+            type="primary"
+            size="mini"
+            icon="el-icon-close"
+            @click="invalider(scope.row)"
+          />
+          <el-button
+            v-show="scope.row.etat == '1'"
+            class="filter-item"
+            type="primary"
+            size="mini"
+            icon="el-icon-success"
+            @click="valider(scope.row)"
+          />
           <el-button
             type="primary"
             size="small"
@@ -133,7 +151,7 @@
                 >
                   <el-option
                     v-for="user in listuser"
-                    :key="user.id"
+                    :key="'F'+user.id"
                     :label="user.name"
                     :value="user.id"
                   />
@@ -145,10 +163,10 @@
               <el-form-item label="اختر رحلة">
                 <el-select v-model="temp.package_id" placeholder="اختر رحلة">
                   <el-option
-                    v-for="listpackag in listpackage"
-                    :key="listpackag.id"
-                    :labelle="listpackag.labelle"
-                    :value="listpackag.id"
+                    v-for="vol in listpackage"
+                    :key="'P'+vol.id"
+                    :label="vol.labelle | uppercaseFirst"
+                    :value="vol.id"
                   />
                 </el-select>
               </el-form-item>
@@ -159,7 +177,7 @@
           <el-button @click="dialogFormVisible = false">
             {{ $t('table.cancel') }}
           </el-button>
-          <el-button type="primary" @click="createUser()">
+          <el-button type="primary" @click="dialogStatus === 'create' ? createUser() : updateData()">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
@@ -174,6 +192,7 @@ import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
 import permission from '@/directive/permission'; // Permission directive
 import axios from 'axios';
+import { ConfirmerAccomp, RefuserAccomp } from '@/api/accompagnateur.js';
 
 const accompanateurPackageResource = new Resource('accompgnateursPackages');
 
@@ -207,7 +226,7 @@ export default {
         id: undefined,
         user_id: '',
         package_id: '',
-        etat: 1,
+        etat: '1',
         role: 1,
         user: '',
         package: '',
@@ -241,7 +260,7 @@ export default {
   },
   methods: {
     async getListUser() {
-      const { data } = await axios.get('http://localhost:8000/api/usersList');
+      const { data } = await axios.get('http://localhost:8000/api/accompgnateurList');
       this.listuser = data.data;
       console.log(this.listuser);
     },
@@ -309,6 +328,32 @@ export default {
           });
         });
     },
+    //
+    valider(row) {
+      ConfirmerAccomp(row.id).then(() => {
+        this.$notify({
+          title: 'Success',
+          message: 'تم الغاء النشر بنجاح',
+          type: 'success',
+          duration: 2000,
+        });
+        this.getList();
+        this.theme = false;
+      });
+    },
+    invalider(row) {
+      RefuserAccomp(row.id).then(() => {
+        this.$notify({
+          title: 'Success',
+          message: 'نشرت بنجاح ',
+          type: 'success',
+          duration: 2000,
+        });
+        this.getList();
+        this.theme = true;
+      });
+    },
+    //
     createUser() {
       this.$refs['userForm'].validate((valid) => {
         if (valid) {
@@ -316,7 +361,7 @@ export default {
             .store(this.temp)
             .then((response) => {
               this.$message({
-                message: ' تم انشاء الوصل بنجاح',
+                message: ' تم انشاء الوصل ',
                 type: 'success',
                 duration: 5 * 1000,
               });
@@ -333,6 +378,31 @@ export default {
         } else {
           console.log('error submit!!');
           return false;
+        }
+      });
+    },
+    updateData() {
+      this.$refs['userForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp);
+          accompanateurPackageResource.update(this.temp.id, tempData)
+            .then((response) => {
+              this.$message({
+                type: 'success',
+                message: 'تم تحديث المعلومات بنجاح',
+                duration: 5 * 1000,
+              });
+              this.resetNewUser();
+              this.dialogFormVisible = false;
+              this.handleFilter();
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+            .finally(() => {
+              this.getList();
+              this.dialogVisible = false;
+            });
         }
       });
     },

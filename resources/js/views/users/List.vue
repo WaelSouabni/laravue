@@ -74,9 +74,7 @@
       </el-table-column>
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
-          <router-link :to="'/administrator/users/edit/' + scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit" />
-          </router-link>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)" />
           <el-button
             v-if="!scope.row.roles.includes('admin')"
             type="danger"
@@ -216,7 +214,7 @@
           <el-button @click="dialogFormVisible = false">
             {{ $t('table.cancel') }}
           </el-button>
-          <el-button type="primary" @click="createUser()">
+          <el-button type="primary" @click="dialogStatus === 'create' ? createUser() : updateData()">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
@@ -445,27 +443,6 @@ export default {
           });
         });
     },
-    async handleEditPermissions(id) {
-      this.currentUserId = id;
-      this.dialogPermissionLoading = true;
-      this.dialogPermissionVisible = true;
-      const found = this.list.find((user) => user.id === id);
-      const { data } = await userResource.permissions(id);
-      this.currentUser = {
-        id: found.id,
-        name: found.name,
-        permissions: data,
-      };
-      this.dialogPermissionLoading = false;
-      this.$nextTick(() => {
-        this.$refs.menuPermissions.setCheckedKeys(
-          this.permissionKeys(this.userMenuPermissions)
-        );
-        this.$refs.otherPermissions.setCheckedKeys(
-          this.permissionKeys(this.userOtherPermissions)
-        );
-      });
-    },
     createUser() {
       this.$refs['userForm'].validate((valid) => {
         if (valid) {
@@ -509,6 +486,42 @@ export default {
         role: 'user',
       };
     },
+    //
+    handleUpdate(row) {
+      this.newUser = Object.assign({}, row); // copy obj
+      this.dialogStatus = 'update';
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs['userForm'].clearValidate();
+      });
+    },
+    //
+    updateData() {
+      this.$refs['userForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.newUser);
+          userResource.update(this.temp.id, tempData)
+            .then((response) => {
+              this.$message({
+                type: 'success',
+                message: 'تم تحديث المعلومات بنجاح',
+                duration: 5 * 1000,
+              });
+              this.resetNewUser();
+              this.dialogFormVisible = false;
+              this.handleFilter();
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+            .finally(() => {
+              this.getList();
+              this.dialogVisible = false;
+            });
+        }
+      });
+    },
+    //
     handleDownload() {
       this.downloading = true;
       import('@/vendor/Export2Excel').then((excel) => {

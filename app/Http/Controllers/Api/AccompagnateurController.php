@@ -5,6 +5,7 @@ namespace App\Http\Controllers\APi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\AccompgnateurResource;
+use App\Http\Resources\UserListResource;
 use App\Laravue\Models\Accompagnateur;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Validator;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+
 
 class AccompagnateurController extends Controller
 {
@@ -217,5 +219,44 @@ class AccompagnateurController extends Controller
           'success' => true,
           'user' => $Accompagnateur
       ]);
+    }
+         /**
+     **/
+    public function accompgnateurs()
+    { $users =DB::select('select distinct(users.id),users.name from users,accompagnateurs where users.id=accompagnateurs.user_id');
+
+        return UserListResource::collection($users);
+        
+    }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function masquer($id)
+    {
+        $Accompagnateur = Accompagnateur::findOrFail($id);
+        $Accompagnateur->etat = '0';
+        $Accompagnateur->save();
+
+        return response()->json($Accompagnateur, 204); 
+     
+    }
+            /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function publier($id)
+    {
+        $Accompagnateur = Accompagnateur::findOrFail($id);
+        $Accompagnateur->etat = '1';
+        $Accompagnateur->save();
+
+        return response()->json($Accompagnateur, 204); 
+     
     }
 }

@@ -128,6 +128,13 @@ export const constantRoutes = [
     path: '/accompgnateurs',
     component: Layout,
     redirect: '/accompgnateurs/index',
+    name: 'اعدادات المرافقين',
+    alwaysShow: true,
+    meta: {
+      title: 'اعدادات المرافقين',
+      icon: 'users',
+      permissions: ['view menu administrator'],
+    },
     children: [
       {
         path: 'accompgnateur',

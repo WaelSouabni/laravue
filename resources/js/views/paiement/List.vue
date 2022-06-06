@@ -133,7 +133,7 @@
                 >
                   <el-option
                     v-for="user in listuser"
-                    :key="user.id"
+                    :key="'s'+ user"
                     :label="user.name"
                     :value="user.id"
                   />
@@ -145,10 +145,10 @@
               <el-form-item label="اختر رحلة">
                 <el-select v-model="temp.package_id" placeholder="اختر رحلة">
                   <el-option
-                    v-for="listpackag in listpackage"
-                    :key="listpackag.id"
-                    :labelle="listpackag.labelle"
-                    :value="listpackag.id"
+                    v-for="vol in listpackage"
+                    :key="'A'+ vol"
+                    :label="vol.labelle | uppercaseFirst"
+                    :value="vol.id"
                   />
                 </el-select>
               </el-form-item>
@@ -161,9 +161,9 @@
                   v-model="temp.etat"
                   placeholder="نوع المبلغ المدفوع "
                 >
-                  <el-option :key="10" :value="0">المبلغ_كامل_دفع</el-option>
-                  <el-option :key="11" :value="1">تسبقه_دفع</el-option>
-                  <el-option :key="12" :value="2">مبلغ_تكملة</el-option>
+                  <el-option :key="'k'+ 10" :label="المبلغ_كامل_دفع" :value="0" />
+                  <el-option :key="'k'+ 10" :label="تسبقه_دفع" :value="1" />
+                  <el-option :key="'k'+ 10" :label="مبلغ_تكملة" :value="2" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -171,9 +171,9 @@
             <el-col :span="11">
               <el-form-item label="طريقة الدفع">
                 <el-select v-model="temp.type" placeholder="طريقة الدفع">
-                  <el-option :key="25" :value="0">نقدا</el-option>
-                  <el-option :key="26" :value="1">شيك</el-option>
-                  <el-option :key="27" :value="2">ائتمان_بطاقة</el-option>
+                  <el-option :key="'m'+ 25" :value="0">نقدا</el-option>
+                  <el-option :key="'m'+ 26" :value="1">شيك</el-option>
+                  <el-option :key="'m'+ 27" :value="2">ائتمان_بطاقة</el-option>
                 </el-select>
               </el-form-item>
             </el-col>

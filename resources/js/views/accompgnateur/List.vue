@@ -87,12 +87,13 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('رقم_جواز_السفر')"
+        :label="$t('الحالة')"
         width="150px"
         align="center"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.numeroDePassport }}</span>
+          <span v-show="scope.row.etat == '1'"> منشور </span>
+          <span v-show="scope.row.etat == '0'"> غير منشور </span>
         </template>
       </el-table-column>
 
@@ -259,7 +260,7 @@
 </template>
 
 <script>
-import { fetchPv, masquerPackage, publierPackage } from '@/api/package';
+import { fetchPv, masquerAccomp, publierAccomp } from '@/api/accompagnateur';
 import waves from '@/directive/waves'; // Waves directive
 import { parseTime } from '@/utils';
 import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
@@ -377,7 +378,7 @@ export default {
       console.log(this.listpackage);
     },
     publier(row) {
-      publierPackage(row.id).then(() => {
+      publierAccomp(row.id).then(() => {
         this.$notify({
           title: 'Success',
           message: 'تم الغاء النشر بنجاح',
@@ -389,7 +390,7 @@ export default {
       });
     },
     masquer(row) {
-      masquerPackage(row.id).then(() => {
+      masquerAccomp(row.id).then(() => {
         this.$notify({
           title: 'Success',
           message: 'نشرت بنجاح ',
