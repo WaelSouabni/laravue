@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class AccompagnateurPackageController extends Controller
 {
@@ -191,5 +192,16 @@ class AccompagnateurPackageController extends Controller
         return response()->json($AccompagnateurPackage, 204); 
      
     }
+
+
+            //
+            public function AccompgnateurPackage($id)
+            {       
+                $package = DB::select('select packages.image,packages.labelle,packages.dateDepart,accompagnateur_packages.created_at,accompagnateur_packages.etat from accompagnateur_packages,packages where packages.id=accompagnateur_packages.package_id and accompagnateur_packages.user_id=?',[$id]);
+    
+                return $package;
+                
+            }
+    
 
 }

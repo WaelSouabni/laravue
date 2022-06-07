@@ -107,7 +107,9 @@ Route::get('accompgnateursPackages/{request?}', [
    ])->name('accompgnateursPackages.index');
    Route::get('accompagnateurs/valider/{id}', 'Api\AccompagnateurPackageController@valider')->name('accomp.valider');
    Route::get('accompagnateurs/invalider/{id}', 'Api\AccompagnateurPackageController@invalider')->name('accomp.invalider');
-
+   Route::get('listePackageAccomp/{id}', [
+    'uses' => 'Api\AccompagnateurPackageController@AccompgnateurPackage'
+   ])->name('listePackage.list');
 
      //Paiement
  Route::apiResource('paiements', 'Api\PaiementController', ['except' => ['index']]);
